@@ -1,0 +1,54 @@
+# cvsMakerForPress CMake config file
+#
+# This file sets the following variables:
+# cvsMakerForPress_FOUND - Always TRUE.
+# cvsMakerForPress_INCLUDE_DIRS - Directories containing the cvsMakerForPress include files.
+# cvsMakerForPress_IDL_DIRS - Directories containing the cvsMakerForPress IDL files.
+# cvsMakerForPress_LIBRARIES - Libraries needed to use cvsMakerForPress.
+# cvsMakerForPress_DEFINITIONS - Compiler flags for cvsMakerForPress.
+# cvsMakerForPress_VERSION - The version of cvsMakerForPress found.
+# cvsMakerForPress_VERSION_MAJOR - The major version of cvsMakerForPress found.
+# cvsMakerForPress_VERSION_MINOR - The minor version of cvsMakerForPress found.
+# cvsMakerForPress_VERSION_REVISION - The revision version of cvsMakerForPress found.
+# cvsMakerForPress_VERSION_CANDIDATE - The candidate version of cvsMakerForPress found.
+
+message(STATUS "Found cvsMakerForPress-@PROJECT_VERSION@")
+set(cvsMakerForPress_FOUND TRUE)
+
+find_package(<dependency> REQUIRED)
+
+#set(cvsMakerForPress_INCLUDE_DIRS
+#    "@CMAKE_INSTALL_PREFIX@/include/@PROJECT_NAME_LOWER@-@PROJECT_VERSION_MAJOR@"
+#    ${<dependency>_INCLUDE_DIRS}
+#    )
+#
+#set(cvsMakerForPress_IDL_DIRS
+#    "@CMAKE_INSTALL_PREFIX@/include/@PROJECT_NAME_LOWER@-@PROJECT_VERSION_MAJOR@/idl")
+set(cvsMakerForPress_INCLUDE_DIRS
+    "@CMAKE_INSTALL_PREFIX@/include/@CPACK_PACKAGE_FILE_NAME@"
+    ${<dependency>_INCLUDE_DIRS}
+    )
+set(cvsMakerForPress_IDL_DIRS
+    "@CMAKE_INSTALL_PREFIX@/include/@CPACK_PACKAGE_FILE_NAME@/idl")
+
+
+if(WIN32)
+    set(cvsMakerForPress_LIBRARIES
+        "@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@@PROJECT_NAME_LOWER@@CMAKE_STATIC_LIBRARY_SUFFIX@"
+        ${<dependency>_LIBRARIES}
+        )
+else(WIN32)
+    set(cvsMakerForPress_LIBRARIES
+        "@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@@PROJECT_NAME_LOWER@@CMAKE_SHARED_LIBRARY_SUFFIX@"
+        ${<dependency>_LIBRARIES}
+        )
+endif(WIN32)
+
+set(cvsMakerForPress_DEFINITIONS ${<dependency>_DEFINITIONS})
+
+set(cvsMakerForPress_VERSION @PROJECT_VERSION@)
+set(cvsMakerForPress_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+set(cvsMakerForPress_VERSION_MINOR @PROJECT_VERSION_MINOR@)
+set(cvsMakerForPress_VERSION_REVISION @PROJECT_VERSION_REVISION@)
+set(cvsMakerForPress_VERSION_CANDIDATE @PROJECT_VERSION_CANDIDATE@)
+
