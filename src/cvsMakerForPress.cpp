@@ -14,9 +14,23 @@
 using namespace std;
 string save_path, extension;
 
-
 enum { MODE, POSITION, LOAD, PORT_LENGTH };
-enum { NOW_POS, ABSOLUTE_POS, RELATIVE_POS, BASE_RLTPOS, BASE_SET, BLTOUCH_POS, LOAD_POS, RELEASE_FORCE };
+enum {
+	NOW_POS,
+	ABSOLUTE_POS,
+	RELATIVE_POS,
+	BASE_RLTPOS,
+	BASE_SET,
+	BLTOUCH_POS,
+	LOAD_POS,
+	RELEASE_FORCE,
+	NOWPOS_BASE,
+	RELOAD_SETTING,
+	FULL_AUTO,
+	TIME_BLT,
+	NOWAIT_BLT
+};
+
 
 // Module specification
 // <rtc-template block="module_spec">
@@ -153,6 +167,8 @@ RTC::ReturnCode_t cvsMakerForPress::onExecute(RTC::UniqueId ec_id)
 			outfile << "BLTouch接触位置[mm]," << m_posload.data[POSITION] << endl;
 		else if(m_posload.data[MODE] == LOAD_POS)
 			outfile << "圧縮位置[mm]," << m_posload.data[POSITION] << ",圧迫力[g]," << m_posload.data[LOAD] << ",";
+		else if(m_posload.data[MODE] == NOWAIT_BLT)
+			outfile << "BLTouch接触位置[mm]," << m_posload.data[POSITION] << ",解放後時間[s]," << m_posload.data[LOAD] << endl;
 
 		// output console
 		if (m_posload.data[MODE] == BASE_SET)
@@ -161,6 +177,8 @@ RTC::ReturnCode_t cvsMakerForPress::onExecute(RTC::UniqueId ec_id)
 			std::printf("BLTouch接触位置：%.1f[mm]	\n", m_posload.data[POSITION]);
 		else if (m_posload.data[MODE] == LOAD_POS)
 			std::printf("圧縮位置：%.1f[mm]	圧迫力：%.1f[g]\n", m_posload.data[POSITION], m_posload.data[LOAD]);
+		else if (m_posload.data[MODE] == NOWAIT_BLT)
+			std::printf("圧縮位置：%.1f[mm]	時間：%.1f[s]\n", m_posload.data[POSITION], m_posload.data[LOAD]);
 	}
 	return RTC::RTC_OK;
 }
